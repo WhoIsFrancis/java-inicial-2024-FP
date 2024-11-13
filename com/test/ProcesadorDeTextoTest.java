@@ -8,9 +8,6 @@ public class ProcesadorDeTextoTest {
     }
 
     public void correrTests() {
-        assert false : "Los asserts están habilitados.";
-        System.out.println("Si ves este mensaje, los asserts están deshabilitados.");
-
         ProcesadorDeTexto procesadorDeTexto = new ProcesadorDeTexto();
 
         int pruebasPasadas = 0;
