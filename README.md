@@ -851,3 +851,82 @@ public class Coche {
 - Facilita el **acceso explícito** a los atributos y métodos de la clase.
 
 El uso de `this` es una herramienta poderosa para trabajar con clases y objetos, y ayuda a evitar confusiones cuando se manejan múltiples instancias o se definen constructores y métodos en la misma clase.
+
+---
+
+# Interfaces
+
+En Java, una interfaz es una colección de métodos abstractos (es decir, métodos sin implementación) que puede ser implementada por cualquier clase, desde la cual herede el comportamiento que define la interfaz. A diferencia de las clases, una interfaz no puede tener un constructor ni contener atributos con estado (como variables de instancia), aunque puede tener constantes y, en versiones modernas de Java (Java 8 en adelante), también puede incluir métodos con implementación (`default` y `static`).
+
+Aquí tienes un ejemplo de cómo crear y usar una interfaz en Java:
+
+### Definición de una interfaz
+
+```java
+public interface Vehiculo {
+    // Método abstracto
+    void acelerar(int incremento);
+
+    // Método abstracto
+    void frenar(int decremento);
+
+    // Método con implementación (a partir de Java 8)
+    default void mostrarVelocidad() {
+        System.out.println("La velocidad actual es desconocida.");
+    }
+}
+```
+
+### Implementación de la interfaz en una clase
+
+Una clase que implemente esta interfaz debe proporcionar su propia implementación para cada uno de los métodos abstractos.
+
+```java
+public class Coche implements Vehiculo {
+    private int velocidad;
+
+    @Override
+    public void acelerar(int incremento) {
+        velocidad += incremento;
+        System.out.println("El coche aceleró a " + velocidad + " km/h.");
+    }
+
+    @Override
+    public void frenar(int decremento) {
+        velocidad -= decremento;
+        if (velocidad < 0) velocidad = 0;
+        System.out.println("El coche frenó a " + velocidad + " km/h.");
+    }
+
+    // Podemos usar el método default de la interfaz o sobrescribirlo
+    @Override
+    public void mostrarVelocidad() {
+        System.out.println("La velocidad actual del coche es " + velocidad + " km/h.");
+    }
+}
+```
+
+### Uso de la clase que implementa la interfaz
+
+```java
+public class Main {
+    public static void main(String[] args) {
+        Vehiculo miCoche = new Coche();
+        miCoche.acelerar(50);
+        miCoche.mostrarVelocidad();
+        miCoche.frenar(20);
+    }
+}
+```
+
+### Explicación
+
+1. **Interfaz `Vehiculo`**: Declara métodos abstractos `acelerar` y `frenar`, que deben implementarse en cualquier clase que utilice esta interfaz.
+2. **Clase `Coche`**: Implementa la interfaz `Vehiculo`, y por ello debe definir cómo funcionan los métodos `acelerar` y `frenar`.
+3. **Método `default`**: El método `mostrarVelocidad` en la interfaz tiene una implementación por defecto, que se puede usar directamente o sobrescribir en la clase implementadora.
+
+### Beneficios de las interfaces en Java
+
+1. **Desacoplamiento**: Las interfaces permiten crear código flexible y modular.
+2. **Polimorfismo**: Una interfaz permite tratar diferentes objetos que la implementan de la misma manera.
+3. **Consistencia**: Aseguran que las clases sigan un contrato específico, lo cual ayuda en proyectos grandes y colaborativos.

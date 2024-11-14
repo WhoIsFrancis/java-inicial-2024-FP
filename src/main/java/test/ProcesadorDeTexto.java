@@ -2,10 +2,11 @@ package test;
 
 import java.util.Set;
 
-public class ProcesadorDeTexto implements AnalizadorDeTexto{
+public class ProcesadorDeTexto implements AnalizadorDeTexto {
+
     @Override
     public int getCantidadDePalabras(String texto) {
-        return 0;
+       return 0;
     }
 
     @Override

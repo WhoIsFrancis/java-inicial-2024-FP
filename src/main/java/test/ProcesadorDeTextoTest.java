@@ -8,7 +8,7 @@ public class ProcesadorDeTextoTest {
     }
 
     public void correrTests() {
-        ProcesadorDeTexto procesadorDeTexto = new ProcesadorDeTexto();
+        AnalizadorDeTexto procesadorDeTexto = new ProcesadorDeTexto();
 
         int pruebasPasadas = 0;
         int pruebasFallidas = 0;
