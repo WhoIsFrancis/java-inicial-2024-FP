@@ -6,7 +6,21 @@ public class ProcesadorDeTexto implements AnalizadorDeTexto {
 
     @Override
     public int getCantidadDePalabras(String texto) {
-       return 0;
+        texto = texto.trim();
+
+        // Elimina todos los signos de puntuación usando expresión regular
+        texto = texto.replaceAll("[\\p{Punct}]", "");
+
+        // Divide el texto en palabras usando espacios como delimitador
+        if (texto.isEmpty()) {
+            return 0;
+        }
+
+        // Divide el texto en palabras usando cualquier cantidad de espacios en blanco como delimitador
+        String[] palabras = texto.split("\\s+");
+
+        // Retorna la cantidad de palabras
+        return palabras.length;
     }
 
     @Override
