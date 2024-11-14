@@ -687,3 +687,167 @@ Las clases y objetos son fundamentales para entender la programación orientada 
 
 ## Uso del "this"
 
+En Java, **`this`** es una palabra clave que se usa en varios contextos, y su propósito principal es hacer referencia al **objeto actual** de la clase. Se utiliza dentro de los métodos y constructores de una clase para referirse al objeto que está invocando el método o constructor en el que `this` se encuentra.
+
+A continuación te explico los casos más comunes en los que se usa `this`:
+
+### 1. **Referencia al Objeto Actual**
+En un método o constructor, `this` se refiere al **objeto actual** que invoca ese método o constructor. Es útil cuando hay una ambigüedad entre los nombres de los parámetros y los nombres de los atributos de la clase.
+
+#### Ejemplo:
+```java
+public class Coche {
+    String marca;
+    String modelo;
+
+    // Constructor con parámetros
+    public Coche(String marca, String modelo) {
+        this.marca = marca;  // 'this.marca' se refiere al atributo de la clase, 'marca' es el parámetro.
+        this.modelo = modelo;  // 'this.modelo' se refiere al atributo de la clase, 'modelo' es el parámetro.
+    }
+
+    public void mostrarInformacion() {
+        System.out.println("Marca: " + this.marca);
+        System.out.println("Modelo: " + this.modelo);
+    }
+}
+```
+
+**Explicación**:
+- El uso de `this.marca` y `this.modelo` dentro del constructor hace referencia a los **atributos de la clase**. Sin `this`, Java no sabría si estamos hablando de los atributos de la clase o de los parámetros del constructor, ya que ambos tienen el mismo nombre.
+- `this` ayuda a **desambiguar** el nombre de los parámetros y los atributos de la clase.
+
+### 2. **Invocar a otro Constructor de la Misma Clase**
+Dentro de un constructor, puedes usar `this()` para llamar a otro constructor de la misma clase. Esto permite crear una cadena de invocaciones de constructores, lo que puede ser útil para evitar repetir código.
+
+#### Ejemplo:
+```java
+public class Coche {
+    String marca;
+    String modelo;
+    int año;
+
+    // Constructor con todos los parámetros
+    public Coche(String marca, String modelo, int año) {
+        this.marca = marca;
+        this.modelo = modelo;
+        this.año = año;
+    }
+
+    // Constructor con solo marca y modelo, invoca al constructor completo
+    public Coche(String marca, String modelo) {
+        this(marca, modelo, 2020);  // Llama al constructor completo con el valor predeterminado para el año.
+    }
+
+    public void mostrarInformacion() {
+        System.out.println("Marca: " + marca);
+        System.out.println("Modelo: " + modelo);
+        System.out.println("Año: " + año);
+    }
+}
+```
+
+**Explicación**:
+- En el constructor `Coche(String marca, String modelo)`, se llama al constructor `Coche(String marca, String modelo, int año)` usando `this(marca, modelo, 2020);`. Esto permite que el constructor con menos parámetros use el constructor con más parámetros y reduzca la redundancia.
+
+### 3. **Pasar el Objeto Actual como Parámetro**
+`this` también puede ser utilizado para pasar el objeto actual como argumento a otro método o constructor.
+
+#### Ejemplo:
+```java
+public class Coche {
+    String marca;
+
+    public Coche(String marca) {
+        this.marca = marca;
+    }
+
+    // Método que acepta un objeto de tipo Coche como parámetro
+    public void comparar(Coche otroCoche) {
+        if (this.marca.equals(otroCoche.marca)) {
+            System.out.println("Los coches son de la misma marca.");
+        } else {
+            System.out.println("Los coches son de marcas diferentes.");
+        }
+    }
+
+    public static void main(String[] args) {
+        Coche coche1 = new Coche("Toyota");
+        Coche coche2 = new Coche("Honda");
+        
+        // Pasando el objeto 'coche1' como parámetro usando 'this'
+        coche1.comparar(coche2);  // Salida: Los coches son de marcas diferentes.
+    }
+}
+```
+
+**Explicación**:
+- En el método `comparar(Coche otroCoche)`, `this.marca` hace referencia a la marca del objeto que invoca el método (por ejemplo, `coche1`), y `otroCoche.marca` hace referencia a la marca del coche que se pasa como parámetro (por ejemplo, `coche2`).
+- `this` se utiliza para referirse al objeto sobre el que se está trabajando dentro del método.
+
+### 4. **Referir al Objeto en Métodos de Instancia**
+Cuando se tiene un método dentro de una clase y se necesita hacer referencia explícita al objeto de esa clase, se usa `this`. Aunque en algunos casos no es necesario, puede ser útil para aclarar el código y hacer más explícita la referencia al objeto actual.
+
+#### Ejemplo:
+```java
+public class Persona {
+    String nombre;
+
+    public Persona(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public void saludar() {
+        System.out.println("Hola, soy " + this.nombre);
+    }
+
+    public static void main(String[] args) {
+        Persona p = new Persona("Carlos");
+        p.saludar();  // Salida: Hola, soy Carlos
+    }
+}
+```
+
+**Explicación**:
+- En el método `saludar()`, `this.nombre` se refiere a la variable de instancia `nombre` del objeto que ha invocado el método (`p` en este caso). Aunque no es estrictamente necesario usar `this`, puede ayudar a hacer el código más claro.
+
+### 5. **Acceso a Métodos de la Clase Actual**
+Se puede usar `this` para llamar a métodos de la misma clase en caso de ser necesario, aunque también puedes hacerlo directamente.
+
+#### Ejemplo:
+```java
+public class Coche {
+    String marca;
+
+    public Coche(String marca) {
+        this.marca = marca;
+    }
+
+    public void arrancar() {
+        System.out.println("El coche " + this.marca + " está arrancando.");
+    }
+
+    public void conducir() {
+        this.arrancar();  // Llama al método arrancar() de la misma clase.
+        System.out.println("El coche está conduciendo.");
+    }
+
+    public static void main(String[] args) {
+        Coche coche = new Coche("Toyota");
+        coche.conducir();
+    }
+}
+```
+
+**Explicación**:
+- En el método `conducir()`, se llama a `this.arrancar()` para invocar el método `arrancar()` dentro de la misma clase `Coche`.
+
+### Resumen
+
+- **`this`** se refiere al **objeto actual**.
+- Se utiliza para **desambiguar** entre atributos de clase y parámetros con el mismo nombre.
+- Permite **invocar otro constructor** de la misma clase.
+- Se puede usar para **pasar el objeto actual** como parámetro a otro método o constructor.
+- Facilita el **acceso explícito** a los atributos y métodos de la clase.
+
+El uso de `this` es una herramienta poderosa para trabajar con clases y objetos, y ayuda a evitar confusiones cuando se manejan múltiples instancias o se definen constructores y métodos en la misma clase.
