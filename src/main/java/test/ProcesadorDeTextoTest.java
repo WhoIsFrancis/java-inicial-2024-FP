@@ -30,6 +30,15 @@ public class ProcesadorDeTextoTest {
             pruebasFallidas++;
         }
 
+        try {
+            assertThat(procesadorDeTexto.getCantidadDePalabras(texto)).isNotEqualTo(96);
+            pruebasPasadas++;
+            System.out.println("1.b passed");
+        } catch (AssertionError e) {
+            System.out.println("Test 1.b: " + e.getMessage() + "\n");
+            pruebasFallidas++;
+        }
+
         /*try {
             assertThat(procesadorDeTexto.getCantidadDeVocales(texto)).isEqualTo(207);
             pruebasPasadas++;
