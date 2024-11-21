@@ -14,7 +14,7 @@ public class AplicacionRestauranteTest {
 
         // Test 1
         try {
-            comanda = new Pedido();
+            comanda = setup();
 
             assertThat(comanda.recuperarCantidadDeComandasTotales()).isEqualTo(0);
             comanda.agregarComanda(new Comanda());
@@ -28,7 +28,7 @@ public class AplicacionRestauranteTest {
 
         // Test 2
         try {
-            comanda = new Pedido();
+            comanda = setup();
 
             comanda.agregarComanda(new Comanda());
             comanda.agregarComanda(new Comanda());
@@ -44,7 +44,7 @@ public class AplicacionRestauranteTest {
 
         // Test 3
         try {
-            comanda = new Pedido();
+            comanda = setup();
 
             comanda.agregarComanda(new Comanda("Ceviche"));
             comanda.agregarComanda(new Comanda("Spaghetti"));
@@ -62,7 +62,7 @@ public class AplicacionRestauranteTest {
 
         // Test 4
         try {
-            comanda = new Pedido();
+            comanda = setup();
 
             comanda.agregarComanda(new Comanda("Ceviche"));
             comanda.agregarComanda(new Comanda("Spaghetti"));
@@ -74,12 +74,14 @@ public class AplicacionRestauranteTest {
 
             comanda.eliminarUltimaComanda();
 
+            ultimaComanda = comanda.recuperarUltimaComandaAgregada();
+
             assertThat(ultimaComanda.getDetalle()).isEqualTo("Spaghetti");
 
             pruebasPasadas++;
-            System.out.println("Test 3 pasó");
+            System.out.println("Test 4 pasó");
         } catch (AssertionError e) {
-            System.out.println("Test 3: " + e.getMessage() + "\n");
+            System.out.println("Test 4: " + e.getMessage() + "\n");
             pruebasFallidas++;
         }
 
@@ -90,5 +92,9 @@ public class AplicacionRestauranteTest {
     public static void main(String[] args) {
         AplicacionRestauranteTest aplicacionRestauranteTest = new AplicacionRestauranteTest();
         aplicacionRestauranteTest.correrTests();
+    }
+
+    Comandable setup() {
+        return new Pedido();
     }
 }
