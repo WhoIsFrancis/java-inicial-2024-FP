@@ -4,6 +4,9 @@ import java.util.Set;
 
 public class ProcesadorDeTexto implements AnalizadorDeTexto {
 
+    static int versionEstatica = 1234;
+    int versionDinamica = 999;
+
     @Override
     public int getCantidadDePalabras(String texto) {
         texto = texto.trim();

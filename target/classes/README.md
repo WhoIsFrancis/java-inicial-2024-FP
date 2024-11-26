@@ -993,3 +993,357 @@ public class Main {
 En Java:
 - Los **tipos primitivos** siempre se pasan por valor.
 - Los **objetos** también se pasan por valor, pero el valor en este caso es una copia de la referencia al objeto, lo que puede dar la ilusión de que se pasa "por referencia".
+
+
+---
+
+En Java, las **Collections** forman parte del marco de trabajo (*framework*) **Java Collections Framework (JCF)**, una estructura potente y flexible que permite gestionar grupos de objetos, como listas, conjuntos y mapas. A continuación, se describen los componentes fundamentales y su uso con ejemplos prácticos.
+
+---
+
+## **1. Interfaces principales de Collections**
+
+### **a. List**
+- Representa una secuencia ordenada de elementos que pueden duplicarse.
+- Implementaciones comunes:
+    - **ArrayList**: Basado en arrays dinámicos.
+    - **LinkedList**: Basado en listas enlazadas.
+
+#### Ejemplo:
+```java
+import java.util.*;
+
+public class ListExample {
+    public static void main(String[] args) {
+        List<String> fruits = new ArrayList<>();
+        fruits.add("Apple");
+        fruits.add("Banana");
+        fruits.add("Apple"); // Permite duplicados
+        System.out.println(fruits); // [Apple, Banana, Apple]
+    }
+}
+```
+
+#### **Escenario típico**:
+Usar **List** para mantener el orden de elementos, como una lista de tareas o nombres en un formulario.
+
+---
+
+### **b. Set**
+- Colección que **no permite duplicados**.
+- Implementaciones comunes:
+    - **HashSet**: Basado en un *hash table*; no garantiza orden.
+    - **LinkedHashSet**: Mantiene el orden de inserción.
+    - **TreeSet**: Ordena los elementos de forma natural o mediante un comparador.
+
+#### Ejemplo:
+```java
+import java.util.*;
+
+public class SetExample {
+    public static void main(String[] args) {
+        Set<String> cities = new HashSet<>();
+        cities.add("New York");
+        cities.add("Paris");
+        cities.add("New York"); // No se añade de nuevo
+        System.out.println(cities); // [New York, Paris] (el orden puede variar)
+    }
+}
+```
+
+#### **Escenario típico**:
+Usar **Set** para almacenar datos únicos, como IDs de usuarios o nombres de ciudades visitadas.
+
+---
+
+### **c. Map**
+- Colección de pares clave-valor, donde las claves deben ser únicas.
+- Implementaciones comunes:
+    - **HashMap**: No garantiza orden.
+    - **LinkedHashMap**: Mantiene el orden de inserción.
+    - **TreeMap**: Ordena las claves de forma natural o mediante un comparador.
+
+#### Ejemplo:
+```java
+import java.util.*;
+
+public class MapExample {
+    public static void main(String[] args) {
+        Map<Integer, String> userMap = new HashMap<>();
+        userMap.put(1, "Alice");
+        userMap.put(2, "Bob");
+        userMap.put(1, "Charlie"); // Reemplaza el valor de la clave 1
+        System.out.println(userMap); // {1=Charlie, 2=Bob}
+    }
+}
+```
+
+#### **Escenario típico**:
+Usar **Map** para almacenar relaciones clave-valor, como un catálogo de productos donde la clave es un ID único.
+
+---
+
+### **d. Queue**
+- Representa una colección ordenada para procesar elementos en un orden específico, como FIFO (*First-In-First-Out*).
+- Implementaciones comunes:
+    - **PriorityQueue**: Ordena elementos según su prioridad natural o un comparador.
+    - **LinkedList**: Puede actuar como una cola.
+
+#### Ejemplo:
+```java
+import java.util.*;
+
+public class QueueExample {
+    public static void main(String[] args) {
+        Queue<String> queue = new LinkedList<>();
+        queue.add("Task 1");
+        queue.add("Task 2");
+        System.out.println(queue.poll()); // Task 1 (se elimina)
+        System.out.println(queue);       // [Task 2]
+    }
+}
+```
+
+#### **Escenario típico**:
+Usar **Queue** para sistemas de colas de espera, como en un sistema de tickets.
+
+---
+
+## **2. Algoritmos en Collections**
+La clase **Collections** ofrece métodos estáticos útiles, como ordenar, buscar o modificar colecciones.
+
+#### Ejemplo:
+```java
+import java.util.*;
+
+public class CollectionsExample {
+    public static void main(String[] args) {
+        List<Integer> numbers = Arrays.asList(4, 2, 7, 1);
+        Collections.sort(numbers);
+        System.out.println(numbers); // [1, 2, 4, 7]
+    }
+}
+```
+
+---
+
+## **3. Generics en Collections**
+El uso de **generics** permite trabajar con tipos específicos, mejorando la seguridad del código al evitar conversiones de tipo.
+
+#### Ejemplo:
+```java
+import java.util.*;
+
+public class GenericsExample {
+    public static void main(String[] args) {
+        List<String> names = new ArrayList<>();
+        names.add("John");
+        // names.add(10); // Error de compilación
+        for (String name : names) {
+            System.out.println(name);
+        }
+    }
+}
+```
+
+---
+
+## **4. Streams y Collections**
+Con **Streams**, puedes realizar operaciones funcionales sobre colecciones.
+
+#### Ejemplo:
+```java
+import java.util.*;
+import java.util.stream.Collectors;
+
+public class StreamsExample {
+    public static void main(String[] args) {
+        List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5);
+        List<Integer> squares = numbers.stream()
+                                       .map(n -> n * n)
+                                       .collect(Collectors.toList());
+        System.out.println(squares); // [1, 4, 9, 16, 25]
+    }
+}
+```
+
+---
+
+## **5. Concurrencia y Collections**
+Para entornos multihilo, usa colecciones seguras para hilos, como **ConcurrentHashMap** o métodos sincronizados de la clase **Collections**.
+
+#### Ejemplo:
+```java
+import java.util.*;
+
+public class SynchronizedExample {
+    public static void main(String[] args) {
+        List<String> list = Collections.synchronizedList(new ArrayList<>());
+        synchronized (list) {
+            list.add("Thread-safe");
+            System.out.println(list);
+        }
+    }
+}
+```
+
+---
+
+### **Resumen de escenarios**
+| Colección    | Escenario típico                               |
+|--------------|-----------------------------------------------|
+| **List**     | Lista ordenada de tareas.                     |
+| **Set**      | Almacenar valores únicos como IDs.            |
+| **Map**      | Catálogo clave-valor (ID-producto).           |
+| **Queue**    | Procesar tareas en cola (sistemas FIFO).      |
+| **Streams**  | Operaciones funcionales en grandes datos.     |
+
+
+
+---
+
+En Java, los conceptos de **contexto estático** y **contexto dinámico** son fundamentales para entender cómo se ejecuta el código y cómo se manejan los elementos de una clase. Aquí te explico ambos:
+
+---
+
+### **Contexto estático**
+El **contexto estático** se refiere a los elementos que son compartidos por todas las instancias de una clase y están asociados con la clase misma, no con objetos específicos. Estos elementos son definidos con la palabra clave `static`.
+
+#### **Características:**
+1. **Asociado a la clase:** Los miembros estáticos existen independientemente de las instancias (objetos) de la clase.
+2. **Uso común:** Útil para información o comportamientos que son compartidos entre todas las instancias, como constantes o métodos utilitarios.
+3. **Acceso sin instanciar la clase:** Se pueden usar directamente con el nombre de la clase.
+4. **Ciclo de vida:** Son creados cuando se carga la clase en memoria y permanecen hasta que la clase es descargada.
+
+#### **Ejemplo:**
+```java
+public class EjemploEstatico {
+    // Campo estático
+    static int contador = 0;
+
+    // Método estático
+    static void incrementarContador() {
+        contador++;
+    }
+
+    public static void main(String[] args) {
+        System.out.println("Contador inicial: " + contador); // 0
+        incrementarContador();
+        System.out.println("Contador después: " + contador); // 1
+    }
+}
+```
+
+---
+
+### **Contexto dinámico**
+El **contexto dinámico** se refiere a los elementos asociados con instancias específicas de una clase. Estos elementos dependen de la existencia de un objeto y tienen comportamientos o valores independientes para cada instancia.
+
+#### **Características:**
+1. **Asociado a instancias:** Cada objeto tiene su propia copia de los campos y puede usar métodos no estáticos.
+2. **Uso específico:** Útil para datos y comportamientos que varían entre diferentes objetos.
+3. **Requiere instanciación:** Solo se puede acceder a estos miembros a través de un objeto de la clase.
+4. **Ciclo de vida:** Existe solo mientras la instancia asociada esté en memoria.
+
+#### **Ejemplo:**
+```java
+public class EjemploDinamico {
+    // Campo no estático
+    int numero;
+
+    // Constructor
+    public EjemploDinamico(int numero) {
+        this.numero = numero;
+    }
+
+    // Método no estático
+    void mostrarNumero() {
+        System.out.println("Número: " + numero);
+    }
+
+    public static void main(String[] args) {
+        // Crear instancias
+        EjemploDinamico obj1 = new EjemploDinamico(10);
+        EjemploDinamico obj2 = new EjemploDinamico(20);
+
+        // Acceder al contexto dinámico
+        obj1.mostrarNumero(); // Número: 10
+        obj2.mostrarNumero(); // Número: 20
+    }
+}
+```
+
+---
+
+### **Diferencias principales**
+| Característica       | Contexto estático                     | Contexto dinámico                     |
+|----------------------|----------------------------------------|---------------------------------------|
+| **Asociación**       | Clase                                 | Instancia                             |
+| **Palabra clave**    | `static`                              | Ninguna                               |
+| **Acceso**           | Sin crear objetos                     | Requiere un objeto                    |
+| **Ciclo de vida**    | Desde que la clase se carga en memoria | Desde que el objeto se crea           |
+| **Compartición**     | Compartido entre todas las instancias | Exclusivo para cada instancia         |
+
+---
+
+En Java, aunque los atributos y métodos **estáticos** pertenecen a la clase (y no a las instancias), el lenguaje permite técnicamente acceder a ellos a través de una instancia. Esto se debe a que el compilador internamente traduce ese acceso para apuntar directamente a la clase, no a la instancia.
+
+### **¿Por qué ocurre esto?**
+1. **Compatibilidad y diseño:**  
+   El diseño de Java no prohíbe esta práctica para evitar complicaciones a los desarrolladores, especialmente a quienes no distinguen de inmediato el concepto entre el contexto estático y dinámico. Sin embargo, no es una buena práctica.
+
+2. **Traducción interna:**  
+   Cuando escribes algo como `obj.atributoEstatico`, el compilador Java lo traduce internamente como `Clase.atributoEstatico`. El acceso no depende realmente de la instancia, incluso si parece que sí.
+
+### **Ejemplo:**
+```java
+public class Ejemplo {
+    static int atributoEstatico = 42;
+
+    public static void main(String[] args) {
+        Ejemplo obj = new Ejemplo();
+        System.out.println(obj.atributoEstatico); // Acceso a través de la instancia
+    }
+}
+```
+
+Aunque puedes usar `obj.atributoEstatico`, **el compilador lo entiende como** `Ejemplo.atributoEstatico`.
+
+---
+
+### **¿Es buena práctica?**
+No, no es recomendable acceder a miembros estáticos a través de instancias. Esto puede causar confusión en el código, ya que sugiere erróneamente que el miembro pertenece a la instancia cuando en realidad pertenece a la clase.
+
+#### **Problema con la confusión:**
+```java
+public class Ejemplo {
+    static int contador = 0;
+
+    public static void main(String[] args) {
+        Ejemplo obj1 = new Ejemplo();
+        Ejemplo obj2 = new Ejemplo();
+
+        // Acceso a través de instancias
+        obj1.contador++;
+        obj2.contador++;
+
+        // Parece que cada objeto tiene su propio contador, pero...
+        System.out.println(Ejemplo.contador); // Resultado: 2 (compartido entre todos)
+    }
+}
+```
+El acceso a través de las instancias puede dar la impresión de que cada instancia tiene su propia copia de la variable estática, lo cual no es cierto.
+
+---
+
+### **Recomendación:**
+Siempre accede a los miembros estáticos directamente a través del nombre de la clase:
+
+```java
+Ejemplo.contador++;
+```
+
+De esta manera, tu intención será clara, evitarás errores conceptuales y tu código será más legible.
+
+---
+

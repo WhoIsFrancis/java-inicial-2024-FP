@@ -993,3 +993,208 @@ public class Main {
 En Java:
 - Los **tipos primitivos** siempre se pasan por valor.
 - Los **objetos** también se pasan por valor, pero el valor en este caso es una copia de la referencia al objeto, lo que puede dar la ilusión de que se pasa "por referencia".
+
+
+---
+
+En Java, las **Collections** forman parte del marco de trabajo (*framework*) **Java Collections Framework (JCF)**, una estructura potente y flexible que permite gestionar grupos de objetos, como listas, conjuntos y mapas. A continuación, se describen los componentes fundamentales y su uso con ejemplos prácticos.
+
+---
+
+## **1. Interfaces principales de Collections**
+
+### **a. List**
+- Representa una secuencia ordenada de elementos que pueden duplicarse.
+- Implementaciones comunes:
+    - **ArrayList**: Basado en arrays dinámicos.
+    - **LinkedList**: Basado en listas enlazadas.
+
+#### Ejemplo:
+```java
+import java.util.*;
+
+public class ListExample {
+    public static void main(String[] args) {
+        List<String> fruits = new ArrayList<>();
+        fruits.add("Apple");
+        fruits.add("Banana");
+        fruits.add("Apple"); // Permite duplicados
+        System.out.println(fruits); // [Apple, Banana, Apple]
+    }
+}
+```
+
+#### **Escenario típico**:
+Usar **List** para mantener el orden de elementos, como una lista de tareas o nombres en un formulario.
+
+---
+
+### **b. Set**
+- Colección que **no permite duplicados**.
+- Implementaciones comunes:
+    - **HashSet**: Basado en un *hash table*; no garantiza orden.
+    - **LinkedHashSet**: Mantiene el orden de inserción.
+    - **TreeSet**: Ordena los elementos de forma natural o mediante un comparador.
+
+#### Ejemplo:
+```java
+import java.util.*;
+
+public class SetExample {
+    public static void main(String[] args) {
+        Set<String> cities = new HashSet<>();
+        cities.add("New York");
+        cities.add("Paris");
+        cities.add("New York"); // No se añade de nuevo
+        System.out.println(cities); // [New York, Paris] (el orden puede variar)
+    }
+}
+```
+
+#### **Escenario típico**:
+Usar **Set** para almacenar datos únicos, como IDs de usuarios o nombres de ciudades visitadas.
+
+---
+
+### **c. Map**
+- Colección de pares clave-valor, donde las claves deben ser únicas.
+- Implementaciones comunes:
+    - **HashMap**: No garantiza orden.
+    - **LinkedHashMap**: Mantiene el orden de inserción.
+    - **TreeMap**: Ordena las claves de forma natural o mediante un comparador.
+
+#### Ejemplo:
+```java
+import java.util.*;
+
+public class MapExample {
+    public static void main(String[] args) {
+        Map<Integer, String> userMap = new HashMap<>();
+        userMap.put(1, "Alice");
+        userMap.put(2, "Bob");
+        userMap.put(1, "Charlie"); // Reemplaza el valor de la clave 1
+        System.out.println(userMap); // {1=Charlie, 2=Bob}
+    }
+}
+```
+
+#### **Escenario típico**:
+Usar **Map** para almacenar relaciones clave-valor, como un catálogo de productos donde la clave es un ID único.
+
+---
+
+### **d. Queue**
+- Representa una colección ordenada para procesar elementos en un orden específico, como FIFO (*First-In-First-Out*).
+- Implementaciones comunes:
+    - **PriorityQueue**: Ordena elementos según su prioridad natural o un comparador.
+    - **LinkedList**: Puede actuar como una cola.
+
+#### Ejemplo:
+```java
+import java.util.*;
+
+public class QueueExample {
+    public static void main(String[] args) {
+        Queue<String> queue = new LinkedList<>();
+        queue.add("Task 1");
+        queue.add("Task 2");
+        System.out.println(queue.poll()); // Task 1 (se elimina)
+        System.out.println(queue);       // [Task 2]
+    }
+}
+```
+
+#### **Escenario típico**:
+Usar **Queue** para sistemas de colas de espera, como en un sistema de tickets.
+
+---
+
+## **2. Algoritmos en Collections**
+La clase **Collections** ofrece métodos estáticos útiles, como ordenar, buscar o modificar colecciones.
+
+#### Ejemplo:
+```java
+import java.util.*;
+
+public class CollectionsExample {
+    public static void main(String[] args) {
+        List<Integer> numbers = Arrays.asList(4, 2, 7, 1);
+        Collections.sort(numbers);
+        System.out.println(numbers); // [1, 2, 4, 7]
+    }
+}
+```
+
+---
+
+## **3. Generics en Collections**
+El uso de **generics** permite trabajar con tipos específicos, mejorando la seguridad del código al evitar conversiones de tipo.
+
+#### Ejemplo:
+```java
+import java.util.*;
+
+public class GenericsExample {
+    public static void main(String[] args) {
+        List<String> names = new ArrayList<>();
+        names.add("John");
+        // names.add(10); // Error de compilación
+        for (String name : names) {
+            System.out.println(name);
+        }
+    }
+}
+```
+
+---
+
+## **4. Streams y Collections**
+Con **Streams**, puedes realizar operaciones funcionales sobre colecciones.
+
+#### Ejemplo:
+```java
+import java.util.*;
+import java.util.stream.Collectors;
+
+public class StreamsExample {
+    public static void main(String[] args) {
+        List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5);
+        List<Integer> squares = numbers.stream()
+                                       .map(n -> n * n)
+                                       .collect(Collectors.toList());
+        System.out.println(squares); // [1, 4, 9, 16, 25]
+    }
+}
+```
+
+---
+
+## **5. Concurrencia y Collections**
+Para entornos multihilo, usa colecciones seguras para hilos, como **ConcurrentHashMap** o métodos sincronizados de la clase **Collections**.
+
+#### Ejemplo:
+```java
+import java.util.*;
+
+public class SynchronizedExample {
+    public static void main(String[] args) {
+        List<String> list = Collections.synchronizedList(new ArrayList<>());
+        synchronized (list) {
+            list.add("Thread-safe");
+            System.out.println(list);
+        }
+    }
+}
+```
+
+---
+
+### **Resumen de escenarios**
+| Colección    | Escenario típico                               |
+|--------------|-----------------------------------------------|
+| **List**     | Lista ordenada de tareas.                     |
+| **Set**      | Almacenar valores únicos como IDs.            |
+| **Map**      | Catálogo clave-valor (ID-producto).           |
+| **Queue**    | Procesar tareas en cola (sistemas FIFO).      |
+| **Streams**  | Operaciones funcionales en grandes datos.     |
+
