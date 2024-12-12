@@ -11,4 +11,6 @@ public interface IComentarios {
     boolean eliminarComentario(int index);
 
     int obtenerCantidadComentarios();
+
+    boolean exportar();
 }

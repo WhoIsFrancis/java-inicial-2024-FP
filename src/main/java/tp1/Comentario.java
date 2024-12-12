@@ -3,7 +3,7 @@ package tp1;
 import java.time.LocalDateTime;
 
 public class Comentario {
-    public static int counter = 0;
+    public static int counterId = 1;
 
     private String resena; // limite de 140
     private float puntaje;
@@ -18,7 +18,16 @@ public class Comentario {
         this.resena = resena;
         this.puntaje = puntaje;
         this.fechaHora = LocalDateTime.now();
-        this.id = counter++;
+        this.id = counterId++;
     }
 
+    @Override
+    public String toString() {
+        return "Comentario{" +
+                "resena='" + resena + '\'' +
+                ", puntaje=" + puntaje +
+                ", fechaHora=" + fechaHora +
+                ", id=" + id +
+                '}';
+    }
 }

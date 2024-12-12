@@ -3,7 +3,7 @@ package tp1;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ComentarioImpl implements IComentarios {
+public class ComentarioImpl implements IComentarios, Exportable {
 
     private List<Comentario> listaComentarios = new ArrayList<>();
 
@@ -26,15 +26,16 @@ public class ComentarioImpl implements IComentarios {
 
     @Override
     public boolean eliminarComentario(int index) {
-        if (listaComentarios.remove(index) == null) {
-            return false;
-        } else {
-            return true;
-        }
+        return listaComentarios.remove(index) != null;
     }
 
     @Override
     public int obtenerCantidadComentarios() {
         return 0;
+    }
+
+    @Override
+    public boolean exportar() {
+        return exportarACsv(this.listaComentarios);
     }
 }

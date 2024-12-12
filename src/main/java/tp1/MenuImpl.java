@@ -5,6 +5,7 @@ import java.util.Scanner;
 public class MenuImpl implements IMenu {
 
     private Scanner scanner = new Scanner(System.in);
+    private IComentarios iComentarios = new ComentarioImpl();
 
     @Override
     public void mostrarOpciones() {
@@ -12,6 +13,7 @@ public class MenuImpl implements IMenu {
         System.out.println("1. Ingresar un nuevo comentario");
         System.out.println("2. Listar todos los comentarios");
         System.out.println("3. Eliminar un comentario");
+        System.out.println("4. Exportar listado de comentarios a csv/txt/etc"); // TODO: setear el nombre del archivo y/o tipo de archivo de salida
         System.out.println("0. Salir");
     }
 
@@ -27,8 +29,6 @@ public class MenuImpl implements IMenu {
 
     @Override
     public boolean ejecutarOpcion(int opcion) {
-        IComentarios iComentarios = new ComentarioImpl();
-
         switch (opcion) {
             case 1:
                 System.out.print("\nAhora ingrese los datos del comentario comenzando por la reseña: ");
@@ -54,7 +54,7 @@ public class MenuImpl implements IMenu {
                 } else {
                     System.out.println("Comentarios: ");
                     for (int i = 0; i < iComentarios.mostrarComentarios().size(); i++) {
-                        System.out.printf("%d. %s%n", i, iComentarios.mostrarComentarios().get(i));
+                        System.out.printf("%d. %s%n", i, iComentarios.mostrarComentarios().get(i).toString());
                     }
                 }
                 break;
@@ -69,6 +69,11 @@ public class MenuImpl implements IMenu {
                 } else {
                     System.out.println("El comentario no pudo ser eliminado.");
                 }
+                break;
+
+            case 4:
+                System.out.println("Exportando...");
+                iComentarios.exportar();
                 break;
 
             case 0:
