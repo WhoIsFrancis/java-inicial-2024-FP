@@ -1,9 +1,11 @@
 package tp1;
 
-import java.time.LocalDateTime;
 import java.util.Scanner;
 
 public class MenuImpl implements IMenu {
+
+    private Scanner scanner = new Scanner(System.in);
+
     @Override
     public void mostrarOpciones() {
         System.out.println("\nMenú de opciones:");
@@ -15,61 +17,59 @@ public class MenuImpl implements IMenu {
 
     @Override
     public int seleccionarOpcion() {
-        Scanner scanner = new Scanner(System.in);
         int choice;
 
         System.out.print("Elija una opción: ");
         choice = scanner.nextInt();
-        scanner.nextLine(); // Consumir nueva línea
-
-        scanner.close();
 
         return choice;
     }
 
     @Override
     public boolean ejecutarOpcion(int opcion) {
+        IComentarios iComentarios = new ComentarioImpl();
+
         switch (opcion) {
             case 1:
-                Scanner scanner = new Scanner(System.in);
-                //System.out.print("Ingrese los datos del comentario: ");
-
-                //System.out.print("Ingrese reseña del comentario: ");
+                System.out.print("Ahora ingrese los datos del comentario comenzando por la reseña: ");
+                scanner.next(); // se agrega esta linea para permitir que el nextLine() sea ejecutado
                 String resena = scanner.nextLine(); // TODO: encontrar el bug y luego limitar a 140 caracteres
 
                 System.out.print("Ingrese el puntaje (0 - 100): ");
                 float puntaje = scanner.nextFloat();
 
                 Comentario comentario = new Comentario(resena, puntaje);
-                IComentarios iComentarios = new ComentarioImpl();
 
                 if (iComentarios.ingresarComentario(comentario)) {
                     System.out.println("Comentario agregado.");
                 } else {
-                    System.out.println("El omentario no pudo ser agregado.");
+                    System.out.println("El comentario no pudo ser agregado.");
                 }
 
-                scanner.close();
                 break;
 
             case 2:
-                    /*List<String> comments = commentManager.getComments();
-                    if (comments.isEmpty()) {
-                        System.out.println("No hay comentarios.");
-                    } else {
-                        System.out.println("Comentarios:");
-                        for (int i = 0; i < comments.size(); i++) {
-                            System.out.printf("%d. %s%n", i, comments.get(i));
-                        }
+                if (iComentarios.mostrarComentarios().isEmpty()) {
+                    System.out.println("No hay comentarios.");
+                } else {
+                    System.out.println("Comentarios: ");
+                    for (int i = 0; i < iComentarios.mostrarComentarios().size(); i++) {
+                        System.out.printf("%d. %s%n", i, iComentarios.mostrarComentarios().get(i));
                     }
-                    break;*/
+                }
+                break;
 
             case 3:
-                   /*
-                    System.out.print("Ingrese el índice del comentario a eliminar: ");
-                    int index = scanner.nextInt();
-                    commentManager.deleteComment(index);
-                    break;*/
+                System.out.print("Ingrese el índice del comentario a eliminar: ");
+                int index = scanner.nextInt();
+
+
+                if (iComentarios.eliminarComentario(index)) {
+                    System.out.println("Comentario eliminado.");
+                } else {
+                    System.out.println("El comentario no pudo ser eliminado.");
+                }
+                break;
 
             case 0:
                 System.out.println("Saliendo de la aplicación. ¡Hasta luego!");
@@ -80,5 +80,12 @@ public class MenuImpl implements IMenu {
         }
 
         return false;
+    }
+
+
+    @Override
+    protected void finalize() throws Throwable {
+        scanner.close();
+        super.finalize();
     }
 }

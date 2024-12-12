@@ -1,21 +1,36 @@
 package tp1;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ComentarioImpl implements IComentarios {
+
+    private List<Comentario> listaComentarios = new ArrayList<>();
+
+    /**
+     * Este metodo permite persistir en una estructura de datos el comentqrio
+     * pasado por parametro
+     *
+     * @param comentario
+     * @return boolean true if
+     */
     @Override
     public boolean ingresarComentario(Comentario comentario) {
-        return false;
+        return listaComentarios.add(comentario);
     }
 
     @Override
     public List<Comentario> mostrarComentarios() {
-        return List.of();
+        return listaComentarios;
     }
 
     @Override
     public boolean eliminarComentario(int index) {
-        return false;
+        if (listaComentarios.remove(index) == null) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     @Override
