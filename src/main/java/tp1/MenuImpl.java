@@ -19,7 +19,7 @@ public class MenuImpl implements IMenu {
     public int seleccionarOpcion() {
         int choice;
 
-        System.out.print("Elija una opción: ");
+        System.out.print("\nElija una opción: ");
         choice = scanner.nextInt();
 
         return choice;
@@ -31,11 +31,11 @@ public class MenuImpl implements IMenu {
 
         switch (opcion) {
             case 1:
-                System.out.print("Ahora ingrese los datos del comentario comenzando por la reseña: ");
-                scanner.next(); // se agrega esta linea para permitir que el nextLine() sea ejecutado
-                String resena = scanner.nextLine(); // TODO: encontrar el bug y luego limitar a 140 caracteres
+                System.out.print("\nAhora ingrese los datos del comentario comenzando por la reseña: ");
+                String trash = scanner.nextLine(); // permite que el siguiente nextLine() sea ejecutado, de lo contrario no funciona
+                String resena = scanner.nextLine(); // TODO: limitar a 140 caracteres
 
-                System.out.print("Ingrese el puntaje (0 - 100): ");
+                System.out.print("\nIngrese el puntaje (0 - 100): ");
                 float puntaje = scanner.nextFloat();
 
                 Comentario comentario = new Comentario(resena, puntaje);
@@ -60,7 +60,7 @@ public class MenuImpl implements IMenu {
                 break;
 
             case 3:
-                System.out.print("Ingrese el índice del comentario a eliminar: ");
+                System.out.print("\nIngrese el índice del comentario a eliminar: ");
                 int index = scanner.nextInt();
 
 
@@ -72,14 +72,15 @@ public class MenuImpl implements IMenu {
                 break;
 
             case 0:
-                System.out.println("Saliendo de la aplicación. ¡Hasta luego!");
-                break;
+                System.out.println("\nSaliendo de la aplicación. ¡Hasta luego!");
+                return false;
 
             default:
                 System.out.println("Opción no válida. Intente nuevamente.");
+                return false;
         }
 
-        return false;
+        return true;
     }
 
 
