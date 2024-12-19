@@ -8,12 +8,6 @@
 - D. Eliminar un Comentario/Reseña/Opinion
 
 - E. Agregar soporte para exportar los comentarios a un formato de texto (txt, csv, etc...)
-- F. Agregar soporte para importar comentarios desde un file csv (Opcional)
-- G. Agregar opciones al menu que permitan:
-- H. Listar los comentarios con puntaje mayor o igual a 90 (utilizar API Streams y lambda)
-- I. Listar los comentarios con puntaje mayor o igual a 50 y menor a 90 (utilizar API Streams y lambda)
-- J. Listar los comentarios con puntaje menor a 50 (utilizar API Streams y lambda)
-- K. Antes de listar los puntos ordenar alfabeticamente por el comentario/reseña
 
 Definir la/las interface/s que den soporte a las funcionalidades arriba descriptas.
 
